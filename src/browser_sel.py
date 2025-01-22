@@ -78,6 +78,9 @@ def sel_take(input):
             if any (d < 4 for d in day):
                 print("Upload time needs to be at least 4 days")
                 driver.quit()
+        if page_view < 50000:
+            print("need to be above 50k views")
+            driver.quit()
     except Exception as e:
         print(f'Error: {e}')
     finally:
