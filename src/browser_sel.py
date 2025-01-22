@@ -22,7 +22,7 @@ def check_url(input):
         r'(youtube\.com/watch\?v=|youtu\.be/)'
         r'([a-zA-Z0-9_-]{11})$'
     )
-    if re.match(youtube_regex, input) is not None and scrappy_check(input):
+    if re.match(youtube_regex, input) is not None:
         return True
     else:
         return False
@@ -36,6 +36,7 @@ def sel_take(input):
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
     try:
         driver.get(input)
         driver.implicitly_wait(2)
@@ -68,13 +69,18 @@ def sel_take(input):
         total_duration_sec = int(total_duration % 60)
         print(f"{page_date} + {page_view} + {total_duration_hr:02}:{total_duration_min:02}:{total_duration_sec:02}")
 
-
-
-
+        if "hours" in page_date or "hour" in page_date or "day" in page_date:
+            print("upload time needs to be at least 4 days")
+            driver.quit()
+        if "days" in page_date:
+            days = re.findall(r'\d+', page_date)
+            day = [int(num) for num in days]
+            if any (d < 4 for d in day):
+                print("Upload time needs to be at least 4 days")
+                driver.quit()
     except Exception as e:
         print(f'Error: {e}')
     finally:
         driver.quit()
 
-def scrappy_check(input):
-    return True
+
