@@ -1,7 +1,6 @@
 import os
 import re
 
-import cv2
 from markdown_it.rules_core import linkify
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -9,12 +8,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
+
+from src.imageworker import image_worker
 
 
 # -check url is a youtube video link
-# -browser open and scrape beautifulsoup for confirmation 4 day old video and 50k views
+# -browser open and confirm 4 day old video and 50k views
 # - add script to display graph
 # - pass image of graph along to opencv
 
@@ -102,9 +102,11 @@ def sel_take(input):
             driver.save_screenshot('rsrc/screenshot.png')
         except Exception as e:
             print(f"Error saving screenshot: {e}")
+        print("screenshot saved")
     except Exception as e:
         print(f'Error: {e}')
     finally:
         driver.quit()
 # ////////////////////////work on image
-#     image = cv2.imread('screenshot.png')
+    image_worker()
+
