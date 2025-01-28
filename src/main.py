@@ -1,3 +1,5 @@
+import os
+
 from src.browser_sel import check_url, sel_take
 
 def main() -> None:
