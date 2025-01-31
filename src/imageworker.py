@@ -17,5 +17,4 @@ def image_worker():
     cropped_image_path = f"{base_name}_cropped{ext}"
     cv2.imwrite(cropped_image_path, roi)
     print(f"Cropped image saved to: {cropped_image_path}")
-
     cv2.destroyAllWindows()

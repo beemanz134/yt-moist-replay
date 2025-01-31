@@ -29,6 +29,7 @@ def check_url(input):
     else:
         return False
 
+
 def sel_take(input):
     global view_str
     chrome_options = Options()
@@ -39,14 +40,16 @@ def sel_take(input):
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-# ////////////////////////////////////////////////////////////chrome browser simulate
+    # ////////////////////////////////////////////////////////////chrome browser simulate
     try:
         driver.get(input)
         driver.implicitly_wait(2)
         print(driver.title + " ///////seleneium browser")
-        page_view_element = driver.find_element(By.XPATH,'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[4]/div[1]/div/ytd-watch-info-text/div/yt-formatted-string/span[1]')
+        page_view_element = driver.find_element(By.XPATH,
+                                                '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[4]/div[1]/div/ytd-watch-info-text/div/yt-formatted-string/span[1]')
         page_view = page_view_element.text
-        page_date_element = driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[4]/div[1]/div/ytd-watch-info-text/div/yt-formatted-string/span[3]')
+        page_date_element = driver.find_element(By.XPATH,
+                                                '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[4]/div[1]/div/ytd-watch-info-text/div/yt-formatted-string/span[3]')
         page_date = page_date_element.text
         try:
             video_element = WebDriverWait(driver, 3).until(
@@ -64,7 +67,7 @@ def sel_take(input):
                 print("Error trying to play the video:", e)
         else:
             print("Video element not found, cannot play.")
-# ///////////////////////////////////////////////////check for minimum upload date, views
+        # ///////////////////////////////////////////////////check for minimum upload date, views
         total_duration = driver.execute_script("return arguments[0].duration;", video_element)
         total_duration_hr = int(total_duration // 3600)
         total_duration_min = int((total_duration % 3600) // 60)
@@ -77,7 +80,7 @@ def sel_take(input):
         if "days" in page_date:
             days = re.findall(r'\d+', page_date)
             day = [int(num) for num in days]
-            if any (d < 4 for d in day):
+            if any(d < 4 for d in day):
                 print("Upload time needs to be at least 4 days")
                 driver.quit()
         views_str = page_view.replace('views', '').strip()
@@ -90,13 +93,35 @@ def sel_take(input):
             driver.quit()
 
         # //////////////////////////////////////////////////////////////////////// youttube mouseover to show graph
+        # step 1 press end for end of video
+        # step 2 hide the recommend videos
+        # step 3 take screenshot of the graph with the black background
         driver.execute_script("""
-            const heatMapContainer = document.querySelector('.ytp-progress-bar');
-            const mouseOverEvent = new MouseEvent('mouseover', { bubbles: true, cancelable: true, view: window });
-            heatMapContainer.dispatchEvent(mouseOverEvent);
+            const videoElement = document.querySelector('video');
+            const endKeyEvent = new KeyboardEvent('keydown', {
+            key: 'End',
+            code: 'End',
+            keyCode: 35,
+            charCode: 0,
+            bubbles: true,
+            cancelable: true
+            });
+            videoElement.dispatchEvent(endKeyEvent);
+
+            setTimeout(() => {
+                const endScreen = document.querySelector('.html5-endscreen.ytp-player-content.videowall-endscreen.ytp-show-tiles.ytp-endscreen-paginate');
+                if (endScreen) {
+                    endScreen.style.display = 'none';
+                }
+
+
+                const heatMapContainer = document.querySelector('.ytp-progress-bar');
+                const mouseOverEvent = new MouseEvent('mouseover', { bubbles: true, cancelable: true, view: window });
+                heatMapContainer.dispatchEvent(mouseOverEvent);
+            }, 1000);
         """)
 
-# //////////////////////////////////////////////////////////////////take a screenshot
+        # //////////////////////////////////////////////////////////////////take a screenshot
         os.makedirs('rsrc', exist_ok=True)
         try:
             driver.save_screenshot('rsrc/screenshot.png')
@@ -107,6 +132,5 @@ def sel_take(input):
         print(f'Error: {e}')
     finally:
         driver.quit()
-# ////////////////////////work on image
+    # ////////////////////////work on image
     image_worker()
-
