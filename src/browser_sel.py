@@ -93,6 +93,7 @@ def sel_take(input):
             driver.quit()
 
         # //////////////////////////////////////////////////////////////////////// youttube mouseover to show graph
+        # step 0 add adblock to chrome browser and use for selenium
         # step 1 press end for end of video
         # step 2 hide the recommend videos
         # step 3 take screenshot of the graph with the black background
@@ -113,12 +114,11 @@ def sel_take(input):
                 if (endScreen) {
                     endScreen.style.display = 'none';
                 }
-
-
-                const heatMapContainer = document.querySelector('.ytp-progress-bar');
-                const mouseOverEvent = new MouseEvent('mouseover', { bubbles: true, cancelable: true, view: window });
-                heatMapContainer.dispatchEvent(mouseOverEvent);
             }, 1000);
+
+            const heatMapContainer = document.querySelector('.ytp-progress-bar');
+            const mouseOverEvent = new MouseEvent('mouseover', { bubbles: true, cancelable: true, view: window });
+            heatMapContainer.dispatchEvent(mouseOverEvent);
         """)
 
         # //////////////////////////////////////////////////////////////////take a screenshot
