@@ -31,7 +31,7 @@ def check_url(input):
 
 
 def sel_take(input):
-    global view_str
+    global view_str, total_duration
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
@@ -134,3 +134,4 @@ def sel_take(input):
         driver.quit()
     # ////////////////////////work on image
     image_worker()
+    return total_duration
