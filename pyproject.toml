@@ -1,17 +1,17 @@
 [project]
-name = "python-boilerplate"
+name = "yt-moist-replay"
 version = "0.1.0"
-description = "Python boilerplate"
+description = "Python project designed to analyze YouTube videos by checking their metadata, extracting relevant data, and processing images to visualize trends"
 requires-python = ">=3.13"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Samuel MARLHENS", email = "samuel.marlhens@proton.me" },
+    { name = "beemanz134" },
 ]
 readme = { file = "README.md", content-type = "text/markdown" }
 
 [project.urls]
-homepage = "https://github.com/smarlhens/python-boilerplate#readme"
-repository = "https://github.com/smarlhens/python-boilerplate"
+homepage = "https://github.com/beemanz134/yt-moist-replay#readme"
+repository = "https://github.com/beemanz134/yt-moist-replay"
 
 [build-system]
 requires = ["hatchling"]
