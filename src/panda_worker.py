@@ -74,7 +74,11 @@ def get_datap(duration):
     rise_fall_df['beginning_point_seconds'] = rise_fall_df['beginning_point_seconds'].apply(seconds_to_hhmmss)
     rise_fall_df['end_point_seconds'] = rise_fall_df['end_point_seconds'].apply(seconds_to_hhmmss)
 
+    slopes_only_df = rise_fall_df[['beginning_point_seconds', 'end_point_seconds']]
+    slopes_only_df.columns = ['rise  ', '  fall']
+
     # Print the rise and fall DataFrame
     print(rise_fall_df)
     plt.close()
-    return rise_fall_df
+    slopes_only_df.to_csv('rsrc/rise_fall_data.txt', sep='~', index=False)
+
