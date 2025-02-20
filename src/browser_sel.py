@@ -87,7 +87,7 @@ def sel_take(input):
         if 'M' in views_str:
             view_str = int(float(views_str.replace('M', '').strip()) * 1_000_000)
         elif 'K' in views_str:
-            view_str = int(float(views_str.replace('M', '').strip()) * 1_000)
+            view_str = int(float(views_str.replace('K', '').strip()) * 1_000)
         if int(view_str) < 50000:
             print("need to be above 50k views")
             driver.quit()
